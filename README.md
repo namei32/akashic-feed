@@ -63,7 +63,7 @@ feed-mcp
 
 ## 验证
 
-CI 从个人 Core 仓库检出固定提交：源码合同检查使用 `fd8965b6a57962b15093f0d26b34296b5e603ce0`，既有回归保留原基线 `2573c6dd648b9f1000686e7918fe7d7642528571`，，运行单元测试、真实
+CI 从个人 Core 仓库检出固定提交：源码合同检查使用 `fd8965b6a57962b15093f0d26b34296b5e603ce0`，既有回归保留原基线 `2573c6dd648b9f1000686e7918fe7d7642528571`，运行既有测试、真实
 Manager + 工具 + Timer fixture 与记录 emit 的值班入口替身、pyright、compileall 和
 `git diff --check`。Manager fixture 还证明：候选零 Timer/零正式写，发布时旧
 Timer 已取消后新稳定 Root 才接班。
