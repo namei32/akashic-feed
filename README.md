@@ -1,4 +1,7 @@
-# feed-mcp
+# Akashic Feed
+
+由 namei32 维护，保留 [上游 Feed](https://github.com/akashic-plugins/feed-mcp) 的完整历史。
+开发和安装以 `main` 为入口，Core 来源为 `namei32/akashic`；不向作者的 fleet 自动提交更新。
 
 Feed 是一个 Akashic Plugin API v3 插件。它用现有的几个正交能力组合出完整
 Feed 链路：
@@ -60,7 +63,7 @@ feed-mcp
 
 ## 验证
 
-CI 固定 Core `d64545463faf5500ff651fa7337229c01b366393`，运行单元测试、真实
+CI 从个人 Core 仓库检出固定提交：源码合同检查使用 `fd8965b6a57962b15093f0d26b34296b5e603ce0`，既有回归保留原基线 `2573c6dd648b9f1000686e7918fe7d7642528571`，运行既有测试、真实
 Manager + 工具 + Timer fixture 与记录 emit 的值班入口替身、pyright、compileall 和
 `git diff --check`。Manager fixture 还证明：候选零 Timer/零正式写，发布时旧
 Timer 已取消后新稳定 Root 才接班。

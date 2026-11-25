@@ -4,11 +4,15 @@ on:
   pull_request:
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
 
 permissions:
   contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   contract:
@@ -17,16 +21,24 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
         with:
-          repository: akashic-plugins/plugin-contracts
-          ref: fca5fa976da4a84171a36b57af7c52fae0dea3c4
-          path: .cache/plugin-contracts
+          repository: namei32/akashic
+          ref: fd8965b6a57962b15093f0d26b34296b5e603ce0
+          path: .cache/akashic-core
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-      - name: Check Plugin API v3
+      - uses: astral-sh/setup-uv@v6
+      - name: Prepare the Core source validator
+        run: uv pip install --system -r .cache/akashic-core/requirements.txt -e .cache/akashic-core/sdk/python
+      - name: Check Plugin API v3 with the production Core
         env:
-          PYTHONPATH: .cache/plugin-contracts
-        run: python -m akashic_plugin_contracts check plugin.py
+          PYTHONPATH: .cache/akashic-core
+        run: |
+          python - <<'PYCODE'
+          from pathlib import Path
+          from agent.plugins.input_preparation import check_plugin_source
+          check_plugin_source(Path.cwd())
+          PYCODE
 
   plugin-tests:
     runs-on: ubuntu-latest
@@ -35,7 +47,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
         with:
-          repository: kachofugetsu09/akashic-agent
+          repository: namei32/akashic
           ref: 2573c6dd648b9f1000686e7918fe7d7642528571
           path: .cache/akashic-core
       - uses: actions/setup-python@v5
